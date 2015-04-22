@@ -53,8 +53,7 @@ class EuroshareApi():
         params = {
             'filter': 'video',
             'sort': 'hodnoceni',
-            'q': query,
-            'streamOnly': 1
+            'q': query
         }
         if page > 1:
             params['strankovani-page'] = page
