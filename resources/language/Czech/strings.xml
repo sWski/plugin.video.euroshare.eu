@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+	<!-- Root Menu -->
+	<string id="30000">Uživatel nepřihlášen</string>
+	<string id="30001">Kredit</string>
+	<string id="30002">Hledat videa</string>
+	<string id="30010">Chyba spojení</string>
+	<!-- Settings -->
+	<string id="30100">Uživ. jméno</string>
+	<string id="30101">Heslo</string>
+</strings>

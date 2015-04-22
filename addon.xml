@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.euroshare.eu"
+       name="euroshare.eu"
+       version="1.0.0"
+       provider-name="Jakub Smutný">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.module.xbmcswift2" version="2.4.0"/>
+        <import addon="script.module.beautifulsoup" version="3.2.1"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="addon.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+        <website>http://euroshare.eu</website>
+        <source>https://github.com/sWski/plugin.video.euroshare.eu</source>
+		<language />
+        <platform>all</platform>
+        <summary lang="en">EuroShare.eu - unlimited space for all your files</summary>
+   		<summary lang="cs">EuroShare.eu - neomezený prostor pro Vaše soubory</summary>
+		<description lang="en">Plugin for streaming videos uploaded at euroshare.eu</description>
+        <description lang="cs">Plugin pro přehrávání videí nahraných na euroshare.eu</description>
+	</extension>
+</addon>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <!-- Root Menu -->
+	<string id="30000">Not logged in</string>
+	<string id="30001">Credit</string>
+	<string id="30002">Search videos</string>
+	<string id="30010">Network error</string>
+	<!-- Settings -->
+	<string id="30100">Username</string>
+	<string id="30101">Password</string>
+</strings>
