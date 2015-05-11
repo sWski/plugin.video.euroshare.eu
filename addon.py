@@ -31,9 +31,9 @@ def show_root_menu():
     """The plugin menu, shows available categories"""
     credit = api.get_credit()
     if credit:
-        credit = ': '.join((_T('credit'), credit))
+        credit = '[B]' + ': '.join((_T('credit'), credit)) + '[/B]'
     else:
-        credit = _T('not_logged')
+        credit = '[B]' + _T('not_logged') + '[/B]'
 
     return [
         {'label': credit,
@@ -75,7 +75,7 @@ def search_result(search_string, page='0'):
 
     if next_page:
         items.insert(0, {
-            'label': 'Next >>',
+            'label': '[B]Next >>[/B]',
             'path': plugin.url_for(
                 'search_result_page',
                 search_string=search_string,
@@ -85,7 +85,7 @@ def search_result(search_string, page='0'):
 
     if page > 1:
         items.insert(0, {
-            'label': '<< Previous',
+            'label': '[B]<< Previous[/B]',
             'path': plugin.url_for(
                 'search_result_page',
                 search_string=search_string,

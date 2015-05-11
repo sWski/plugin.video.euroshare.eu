@@ -32,7 +32,6 @@ class EuroshareApi():
     )
 
     def __init__(self, username, password, storage_path):
-        self.logged_in = False
         self.username = username
         self.password = password
         self.cj = LWPCookieJar(storage_path + COOKIE_FILE)
@@ -40,10 +39,13 @@ class EuroshareApi():
             self.cj.load()
         except IOError:
             pass
-        else:
-            self.logged_in = True
         self.opener = build_opener(HTTPCookieProcessor(self.cj))
         self.opener.addheaders = [('User-Agent', self.USER_AGENT)]
+        self.logged_in = self.__check_cookies()
+        if not self.logged_in:
+            # set czech lang and login
+            self.__urlopen(BASE_URL + '?jazyk=cs&do=zmenitJazyk')
+            self.__login()
 
     def get_credit(self):
         data = self.__api_call('/user/informacie')
@@ -68,7 +70,6 @@ class EuroshareApi():
             url = video.source['src']
         else:
             url = container.find('p', 'text-vpravo').a['href']
-        #print 'url: ' + url
         return url
 
     @staticmethod
@@ -86,7 +87,7 @@ class EuroshareApi():
             try:
                 size, units = size_str.strip().lower().split()
             except ValueError:
-                print '_convert_size(): wrong size - ' + repr(size_str)
+                _log('Wrong size - ' + repr(size_str))
                 return 0
 
             if 'kb' in units:
@@ -125,6 +126,19 @@ class EuroshareApi():
                 next_page = int(next_elem.string)
         return items, next_page
 
+    def __check_cookies(self):
+        session = False
+        for cookie in self.cj:
+            if 'SessId' in cookie.name:
+                session = True
+        if not session:
+            return False
+        # check session validity
+        data = self.__urlopen(BASE_URL)
+        if data.find('/user/odhlaseni') > 0:
+            return True
+        return False
+
     def __login(self):
         if self.username and self.password:
             data = {
@@ -133,20 +147,22 @@ class EuroshareApi():
                 'remember': 'on',
                 'send': 'PRIHLÁSENIE'
             }
-            if self.__urlopen(BASE_URL + LOGIN_URL, data):
+            data = self.__urlopen(BASE_URL + LOGIN_URL, data)
+            if data.find('/user/odhlaseni') > 0:
                 self.logged_in = True
                 self.cj.save()
+            else:
+                _log('Login error, username: %s, pass len: %i' \
+                     % (self.username, len(self.password)))
 
     def __api_call(self, path, params=None):
         url = BASE_URL + path
         if params:
             url += '?%s' % urlencode(params)
-        if not self.logged_in:
-            self.__login()
         return self.__urlopen(url)
 
     def __urlopen(self, url, data=None):
-        print 'Opening url: %s' % url
+        _log('Opening url: %s' % url)
         if data:
             data = urlencode(data)
         try:
@@ -156,3 +172,7 @@ class EuroshareApi():
         except URLError, error:
             raise NetworkError('URLError: %s' % error)
         return response
+
+
+def _log(msg):
+    print u'[euroshare.eu] %s' % msg

@@ -1,2 +1,6 @@
+1.0.1 (11.05.2015)
+    - Fixed login
+    - Minor polishing
+
 1.0.0 (22.04.2015)
     - Initial Release
